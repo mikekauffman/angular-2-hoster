@@ -2,17 +2,20 @@ import * as PartyActions from './partyActions';
 
 const initialState = {
   parties: [],
-  currentFilter: 'SHOW_ALL'
 }
 
 export function rootReducer(state = initialState, action){
+  console.log(action, state)
   switch (action.type) {
+    case PartyActions.PARTIES_LOADED:
+      return {
+        parties: action.parties
+      }
     case PartyActions.ADD_PARTY:
       return {
         parties: state.parties.concat({
-          id: action.id,
-          text: action.text,
-          completed: action.completed
+          name: action.name,
+          size: action.size
         })
       };
     default:
