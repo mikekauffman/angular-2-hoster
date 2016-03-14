@@ -9,7 +9,9 @@ export function rootReducer(state = initialState, action){
   switch (action.type) {
     case PartyActions.PARTIES_LOADED:
       return {
-        parties: action.parties
+        parties: action.parties.filter((party) => {
+          return !party.seated
+        })
       }
     case PartyActions.PARTY_ADDED:
       return {
