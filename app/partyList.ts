@@ -7,13 +7,23 @@ import 'rxjs/Rx';
 @Component({
   selector: 'party-list',
   template: `
-    <ul>
-      <party *ngFor="#party of parties" [id]="party.id">
-        {{party.name}} - {{party.size}}
-      </party>
-    </ul>
-  `,
-  directives: [Party]
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Size</th>
+          <th>Arrived</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="#party of parties" [id]="party.id">
+          <td>{{party.name}}</td>
+          <td>{{party.size}}</td>
+          <td>5 min ago</td>
+        </tr>
+      </tbody>
+    </table>
+  `
 })
 export class PartyList implements OnDestroy {
   parties: Observable<Party[]>

@@ -5,9 +5,14 @@ import {PartyList} from './partyList';
 @Component({
     selector: 'hoster-app',
     template:
-      `<div>
-        <add-party></add-party>
-        <party-list></party-list>
+      `<div class="col-xs-12 col-md-6 col-md-offset-3 container">
+        <div class="row text-center">
+          <h1>Hoster</h1>
+          <add-party></add-party>
+        </div>
+        <div class="row">
+          <party-list></party-list>
+        </div>
       </div>`,
     directives: [AddParty, PartyList]
 
