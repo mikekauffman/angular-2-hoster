@@ -3,11 +3,12 @@ import {Party} from './party';
 import {PartyActions} from './partyActions';
 import {PartyService} from './partyService';
 import 'rxjs/Rx';
+import moment from 'moment';
 
 @Component({
   selector: 'party-list',
   template: `
-    <table class="table">
+    <table class="table table-hover">
       <thead>
         <tr>
           <th>Name</th>
@@ -19,7 +20,7 @@ import 'rxjs/Rx';
         <tr *ngFor="#party of parties" [id]="party.id">
           <td>{{party.name}}</td>
           <td>{{party.size}}</td>
-          <td>5 min ago</td>
+          <td>{{waitTime(party.arrived_at)}}</td>
         </tr>
       </tbody>
     </table>
@@ -40,6 +41,10 @@ export class PartyList implements OnDestroy {
       let state = this.appStore.getState();
       this.parties = state.parties;
     });
+  }
+
+  private waitTime(arrival) {
+    return moment(arrival).fromNow();
   }
 
   private ngOnDestroy(){
