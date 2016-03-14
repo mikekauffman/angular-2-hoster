@@ -1,8 +1,7 @@
 import {Inject} from 'angular2/core';
 import {PartyService} from './partyService';
 
-export const ADD_PARTY = 'ADD_PARTY';
-export const GET_PARTIES = 'GET_PARTIES';
+export const PARTY_ADDED = 'PARTY_ADDED';
 export const PARTIES_LOADED = 'PARTIES_LOADED';
 
 export class PartyActions {
@@ -11,10 +10,21 @@ export class PartyActions {
   ) {}
 
   addParty(name, size){
+    return (dispatch) => {
+      // dispatch begin add party
+      this.partyService.addParty(name, size).subscribe(
+        party => dispatch(this.partyAdded(party)),
+        error => console.error('Error: ' + error),
+        () => console.log('PARTY ADDED SUCCESS')
+      );
+    };
+  };
+
+  partyAdded(party) {
     return {
-      type: ADD_PARTY,
-      name: name,
-      size: size
+      type: PARTY_ADDED,
+      name: party.name,
+      size: party.size
     };
   };
 

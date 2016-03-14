@@ -11,7 +11,7 @@ export function rootReducer(state = initialState, action){
       return {
         parties: action.parties
       }
-    case PartyActions.ADD_PARTY:
+    case PartyActions.PARTY_ADDED:
       return {
         parties: state.parties.concat({
           name: action.name,
