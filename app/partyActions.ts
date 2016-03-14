@@ -10,8 +10,9 @@ export class PartyActions {
     @Inject(PartyService) private partyService: PartyService
   ) {}
 
-  addParty(name, size){
-    return (dispatch) => {
+
+  addParty (name, size){
+    return dispatch => {
       // dispatch begin add party
       this.partyService.addParty(name, size).subscribe(
         party => dispatch(this.partyAdded(party)),
@@ -21,7 +22,7 @@ export class PartyActions {
     };
   };
 
-  partyAdded(party) {
+  partyAdded (party) {
     return {
       type: PARTY_ADDED,
       name: party.name,
@@ -29,8 +30,8 @@ export class PartyActions {
     };
   };
 
-  getParties() {
-    return (dispatch) => {
+  getParties () {
+    return dispatch => {
       // dispatch begin parties loaded
       this.partyService.getParties().subscribe(
         parties => dispatch(this.partiesLoaded(parties)),
@@ -40,7 +41,7 @@ export class PartyActions {
     };
   };
 
-  partiesLoaded(parties) {
+  partiesLoaded (parties) {
     return {
       type: PARTIES_LOADED,
       parties: parties
