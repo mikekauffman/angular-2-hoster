@@ -27,6 +27,17 @@ export class PartyService {
                     .catch(this.handleError);
   }
 
+  seatParty (id) {
+    let body = JSON.stringify({});
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+    let options = new RequestOptions({ headers: headers });
+
+    return this.http.put(this.baseUrl + 'api/v1/parties/' + id, body, options)
+                    .map(res => <Party[]>res.json())
+                    .do(data => console.log(data))
+                    .catch(this.handleError);
+  }
+
   private handleError (error: Response) {
     console.error(error);
     return Observable.throw(error.json().error || 'Server error');

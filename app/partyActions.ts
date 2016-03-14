@@ -1,6 +1,7 @@
 import {Inject} from 'angular2/core';
 import {PartyService} from './partyService';
 
+export const PARTY_SEATED = 'PARTY_SEATED';
 export const PARTY_ADDED = 'PARTY_ADDED';
 export const PARTIES_LOADED = 'PARTIES_LOADED';
 
@@ -45,4 +46,22 @@ export class PartyActions {
       parties: parties
     };
   }
+
+  seatParty (party) {
+    return dispatch => {
+      // dispatch begin seat party
+      this.partyService.seatParty(party.id).subscribe(
+        party => dispatch(this.partySeated(party.id)),
+        error => console.error('Error: ' + error),
+        () => console.log('PARTY SEATED SUCCESS')
+      );
+    };
+  };
+
+  partySeated (id) {
+    return {
+      type: PARTY_SEATED,
+      id: id
+    };
+  };
 }

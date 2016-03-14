@@ -14,6 +14,7 @@ import moment from 'moment';
           <th>Name</th>
           <th>Size</th>
           <th>Arrived</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -21,6 +22,11 @@ import moment from 'moment';
           <td>{{party.name}}</td>
           <td>{{party.size}}</td>
           <td>{{waitTime(party.arrived_at)}}</td>
+          <td>
+            <button class="btn btn-default" (click)="seatParty(party)">
+              Seated
+            </button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -41,6 +47,12 @@ export class PartyList implements OnDestroy {
       let state = this.appStore.getState();
       this.parties = state.parties;
     });
+  }
+
+  private seatParty(party) {
+    this.appStore.dispatch(
+      this.partyActions.seatParty(party)
+    );
   }
 
   private waitTime(arrival) {

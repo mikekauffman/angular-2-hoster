@@ -18,6 +18,12 @@ export function rootReducer(state = initialState, action){
           size: action.size
         })
       };
+    case PartyActions.PARTY_SEATED:
+      return {
+        parties: state.parties.filter((party) => {
+          return party.id != action.id
+        })
+      }
     default:
       return state;
   }
