@@ -4,11 +4,13 @@ import {PartyActions} from './partyActions';
 import {PartyService} from './partyService';
 import 'rxjs/Rx';
 import moment from 'moment';
+import Spinner from 'spin';
 
 @Component({
   selector: 'party-list',
   template: `
-    <table class="table table-hover">
+    <div id="spinner" *ngIf="!loaded"></div>
+    <table *ngIf="loaded" class="table table-hover">
       <thead>
         <tr>
           <th>Name</th>
@@ -32,7 +34,7 @@ import moment from 'moment';
     </table>
   `
 })
-export class PartyList implements OnDestroy {
+export class PartyList implements OnDestroy, AfterViewChecked {
   parties: Observable<Party[]>
   constructor(
     @Inject('AppStore') private appStore: AppStore,
@@ -46,6 +48,7 @@ export class PartyList implements OnDestroy {
     this.unsubscribe = this.appStore.subscribe(()=> {
       let state = this.appStore.getState();
       this.parties = state.parties;
+      this.loaded = state.loaded;
     });
   }
 
@@ -57,6 +60,13 @@ export class PartyList implements OnDestroy {
 
   private waitTime(arrival) {
     return moment(arrival).fromNow();
+  }
+
+  private ngAfterViewChecked (){
+    var target = document.getElementById('spinner')
+    if (target && !target.hasChildNodes()) {
+      new Spinner({top: '200%'}).spin(target);
+    }
   }
 
   private ngOnDestroy(){

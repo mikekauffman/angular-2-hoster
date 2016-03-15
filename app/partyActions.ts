@@ -1,6 +1,7 @@
 import {Inject} from 'angular2/core';
 import {PartyService} from './partyService';
 
+export const BEGIN_LOADING = 'BEGIN_LOADING'
 export const PARTY_SEATED = 'PARTY_SEATED';
 export const PARTY_ADDED = 'PARTY_ADDED';
 export const PARTIES_LOADED = 'PARTIES_LOADED';
@@ -10,10 +11,15 @@ export class PartyActions {
     @Inject(PartyService) private partyService: PartyService
   ) {}
 
+  beginLoading () {
+    return {
+      type: BEGIN_LOADING
+    }
+  };
 
   addParty (name, size){
     return dispatch => {
-      // dispatch begin add party
+      dispatch(this.beginLoading())
       this.partyService.addParty(name, size).subscribe(
         party => dispatch(this.partyAdded(party)),
         error => console.error('Error: ' + error),
@@ -32,7 +38,7 @@ export class PartyActions {
 
   getParties () {
     return dispatch => {
-      // dispatch begin parties loaded
+      dispatch(this.beginLoading())
       this.partyService.getParties().subscribe(
         parties => dispatch(this.partiesLoaded(parties)),
         error => console.error('Error: ' + error),
@@ -50,7 +56,7 @@ export class PartyActions {
 
   seatParty (party) {
     return dispatch => {
-      // dispatch begin seat party
+      dispatch(this.beginLoading())
       this.partyService.seatParty(party.id).subscribe(
         party => dispatch(this.partySeated(party.id)),
         error => console.error('Error: ' + error),

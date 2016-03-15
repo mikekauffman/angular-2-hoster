@@ -28,6 +28,7 @@ System.config({
     "redux-thunk": "npm:redux-thunk@2.0.1",
     "reflect-metadata": "npm:reflect-metadata@0.1.3",
     "rxjs": "npm:rxjs@5.0.0-beta.2",
+    "spin": "github:fgnass/spin.js@2.3.2",
     "systemjs": "npm:systemjs@0.19.24",
     "typescript": "npm:typescript@1.8.7",
     "typings": "npm:typings@0.7.9",
