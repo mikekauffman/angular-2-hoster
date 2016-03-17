@@ -4,37 +4,39 @@ import {PartyActions} from './partyActions';
 import {PartyService} from './partyService';
 import 'rxjs/Rx';
 import moment from 'moment';
-import Spinner from 'spin';
+import {Loader} from './loader';
 
 @Component({
   selector: 'party-list',
   template: `
-    <div id="spinner" *ngIf="!loaded"></div>
-    <table *ngIf="loaded" class="table table-hover">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Size</th>
-          <th>Arrived</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="#party of parties" [id]="party.id">
-          <td>{{party.name}}</td>
-          <td>{{party.size}}</td>
-          <td>{{waitTime(party.arrived_at)}}</td>
-          <td>
-            <button class="btn btn-default" (click)="seatParty(party)">
-              Seated
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  `
+    <loader [loaded]='loaded' [options]='options'>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Size</th>
+            <th>Arrived</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="#party of parties" [id]="party.id">
+            <td>{{party.name}}</td>
+            <td>{{party.size}}</td>
+            <td>{{waitTime(party.arrived_at)}}</td>
+            <td>
+              <button class="btn btn-default" (click)="seatParty(party)">
+                Seated
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </loader>
+  `,
+  directives: [Loader]
 })
-export class PartyList implements OnDestroy, AfterViewChecked {
+export class PartyList implements OnDestroy {
   parties: Observable<Party[]>
   constructor(
     @Inject('AppStore') private appStore: AppStore,
@@ -50,6 +52,8 @@ export class PartyList implements OnDestroy, AfterViewChecked {
       this.parties = state.parties;
       this.loaded = state.loaded;
     });
+
+    this.options = { top: '200%' }
   }
 
   private seatParty(party) {
@@ -62,14 +66,7 @@ export class PartyList implements OnDestroy, AfterViewChecked {
     return moment(arrival).fromNow();
   }
 
-  private ngAfterViewChecked (){
-    var target = document.getElementById('spinner')
-    if (target && !target.hasChildNodes()) {
-      new Spinner({top: '200%'}).spin(target);
-    }
-  }
-
-  private ngOnDestroy(){
+  private ngOnDestroy() {
     this.unsubscribe();
   }
 }
